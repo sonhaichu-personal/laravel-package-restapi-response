@@ -60,7 +60,7 @@ class ApiResponse
     }
 
     /**
-     * Pagintaor response
+     * Paginator response
      *
      * @param Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
      * @param $transformer
