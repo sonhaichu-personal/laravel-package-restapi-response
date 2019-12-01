@@ -57,4 +57,32 @@ class ApiResponseTest extends TestCase
             $this->assertSame($item->author, $data['data'][$key]['author']);
         });
     }
+
+    /**
+     * @test
+     */
+    public function can_response_paginator_with_transformer()
+    {
+        $collection  = factory(Book::class, 5)->make();
+        $paginator   = $collection->paginate(3);
+        $transformer = new BookTransformer();
+
+        $response = response()->api()->paginator($paginator, $transformer);
+        $data     = json_decode($response, true);
+
+        $this->assertArrayHasKey('data', $data);
+        $this->assertArrayHasKey('meta', $data);
+        $this->assertArrayHasKey('pagination', $data['meta']);
+        $this->assertArrayHasKey('total', $data['meta']['pagination']);
+        $this->assertArrayHasKey('count', $data['meta']['pagination']);
+        $this->assertArrayHasKey('per_page', $data['meta']['pagination']);
+        $this->assertArrayHasKey('current_page', $data['meta']['pagination']);
+        $this->assertArrayHasKey('total_pages', $data['meta']['pagination']);
+        $this->assertArrayHasKey('links', $data['meta']['pagination']);
+
+        $this->assertSame($paginator->total(), $data['meta']['pagination']['total']);
+        $this->assertSame($paginator->count(), $data['meta']['pagination']['count']);
+        $this->assertSame($paginator->perPage(), $data['meta']['pagination']['per_page']);
+        $this->assertSame($paginator->currentPage(), $data['meta']['pagination']['current_page']);
+    }
 }
