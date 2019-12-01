@@ -18,6 +18,11 @@ abstract class ApiResponseAbstract
     protected $factory;
 
     /**
+     * @var string
+     */
+    protected $includeParamName = 'include';
+
+    /**
      * Constructor
      *
      * @param League\Fractal\Manager $manager
@@ -28,6 +33,8 @@ abstract class ApiResponseAbstract
     {
         $this->manager = $manager;
         $this->factory = $factory;
+
+        $this->parseIncludes();
     }
 
     /**
@@ -52,5 +59,18 @@ abstract class ApiResponseAbstract
     protected function jsonResponse(array $data)
     {
         return $this->factory->json($data);
+    }
+
+    /**
+     * Parse include from request
+     *
+     * @return void
+     */
+    protected function parseIncludes()
+    {
+        $request = request();
+        if ($request->has($this->includeParamName)) {
+            $this->manager->parseIncludes($request->input($this->includeParamName));
+        }
     }
 }

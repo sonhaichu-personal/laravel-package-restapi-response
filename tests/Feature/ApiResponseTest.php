@@ -3,9 +3,11 @@
 namespace HaiCS\Laravel\Api\Response\Test\Feature;
 
 use HaiCS\Laravel\Api\Response\Test\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ApiResponseTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * @test
      */
@@ -65,6 +67,19 @@ class ApiResponseTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'success' => true,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function can_retrieve_json_include_relation()
+    {
+        $response = $this->call('GET', route('categories.detail'), ['include' => 'books']);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => ['books'],
         ]);
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
 use HaiCS\Laravel\Api\Response\Test\Stubs\Models\Book;
+use HaiCS\Laravel\Api\Response\Test\Stubs\Models\Category;
 use HaiCS\Laravel\Api\Response\Test\Stubs\Transformers\BookTransformer;
+use HaiCS\Laravel\Api\Response\Test\Stubs\Transformers\CategoryTransformer;
 
 Route::get('api/v1/books/detail', function () {
     $book = factory(Book::class)->make();
@@ -25,3 +27,10 @@ Route::get('api/v1/books', function () {
 Route::get('api/v1/success', function () {
     return response()->api()->success();
 });
+
+Route::get('api/v1/categories/detail', function () {
+    $category = factory(Category::class)->create();
+    $books    = $category->books()->createMany(factory(Book::class, 3)->make()->toArray());
+
+    return response()->api()->item($category, new CategoryTransformer());
+})->name('categories.detail');

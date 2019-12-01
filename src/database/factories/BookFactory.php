@@ -2,6 +2,7 @@
 
 use Faker\Generator as Faker;
 use HaiCS\Laravel\Api\Response\Test\Stubs\Models\Book;
+use HaiCS\Laravel\Api\Response\Test\Stubs\Models\Category;
 
 $factory->define(Book::class, function (Faker $faker) {
     return [
