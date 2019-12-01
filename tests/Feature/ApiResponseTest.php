@@ -13,7 +13,7 @@ class ApiResponseTest extends TestCase
      */
     public function can_retrieve_json_item()
     {
-        $response = $this->get('api/v1/books/detail');
+        $response = $this->get(route('get.item'));
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -26,7 +26,7 @@ class ApiResponseTest extends TestCase
      */
     public function can_retrieve_json_collection()
     {
-        $response = $this->get('api/v1/books/all');
+        $response = $this->get(route('get.collection'));
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -39,7 +39,7 @@ class ApiResponseTest extends TestCase
      */
     public function can_retrieve_json_paginator()
     {
-        $response = $this->get('api/v1/books');
+        $response = $this->get(route('get.paginator'));
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -62,7 +62,7 @@ class ApiResponseTest extends TestCase
      */
     public function can_retrieve_json_success()
     {
-        $response = $this->get('api/v1/success');
+        $response = $this->get(route('success'));
 
         $response->assertStatus(200);
         $response->assertJson([

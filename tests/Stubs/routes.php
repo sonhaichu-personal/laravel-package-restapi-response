@@ -26,7 +26,7 @@ Route::get('api/v1/books', function () {
 
 Route::get('api/v1/success', function () {
     return response()->api()->success();
-});
+})->name('success');
 
 Route::get('api/v1/categories/detail', function () {
     $category = factory(Category::class)->create();
