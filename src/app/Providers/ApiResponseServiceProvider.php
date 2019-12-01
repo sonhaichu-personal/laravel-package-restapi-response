@@ -5,6 +5,7 @@ namespace HaiCS\Laravel\Api\Response\Providers;
 use HaiCS\Laravel\Api\Response\Supports\ApiResponse;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
+use League\Fractal\Manager;
 
 class ApiResponseServiceProvider extends ServiceProvider
 {
@@ -16,7 +17,7 @@ class ApiResponseServiceProvider extends ServiceProvider
     public function boot()
     {
         Response::macro('api', function () {
-            return new ApiResponse();
+            return new ApiResponse(new Manager());
         });
     }
 

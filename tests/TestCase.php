@@ -30,6 +30,6 @@ class TestCase extends OrchestraTestCase
     {
         parent::setUp();
 
-        // $this->withFactories(__DIR__ . '/../src/database/factories');
+        $this->withFactories(__DIR__ . '/../src/database/factories');
     }
 }
