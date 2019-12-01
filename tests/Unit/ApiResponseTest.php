@@ -6,6 +6,7 @@ use HaiCS\Laravel\Api\Response\Supports\ApiResponse;
 use HaiCS\Laravel\Api\Response\Test\Stubs\Models\Book;
 use HaiCS\Laravel\Api\Response\Test\Stubs\Transformers\BookTransformer;
 use HaiCS\Laravel\Api\Response\Test\TestCase;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class ApiResponseTest extends TestCase
@@ -17,7 +18,7 @@ class ApiResponseTest extends TestCase
     {
         $response = response()->api();
 
-        $this->assertTrue($response instanceof ApiResponse);
+        $this->assertInstanceOf(ApiResponse::class, $response);
     }
 
     /**
@@ -31,6 +32,7 @@ class ApiResponseTest extends TestCase
         $response = response()->api()->item($item, $transformer);
         $data     = json_decode($response, true);
 
+        // $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertArrayHasKey('data', $data);
         $this->assertSame($data['data']['title'], $item->title);
         $this->assertSame($data['data']['description'], $item->description);
@@ -84,5 +86,18 @@ class ApiResponseTest extends TestCase
         $this->assertSame($paginator->count(), $data['meta']['pagination']['count']);
         $this->assertSame($paginator->perPage(), $data['meta']['pagination']['per_page']);
         $this->assertSame($paginator->currentPage(), $data['meta']['pagination']['current_page']);
+    }
+
+    /**
+     * @test
+     */
+    public function can_response_success()
+    {
+        $response = response()->api()->success();
+        $data     = $response->getData(true);
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertArrayHasKey('success', $data);
+        $this->assertTrue($data['success']);
     }
 }

@@ -76,4 +76,14 @@ class ApiResponse
 
         return $this->manager->createData($resource)->toJson();
     }
+
+    /**
+     * Success response
+     *
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function success()
+    {
+        return response()->json(['success' => true]);
+    }
 }
