@@ -1,6 +1,6 @@
 <?php
 
-namespace HaiCS\Laravel\Api\Response\Providers;
+namespace HaiCS\Laravel\Api\Response\Test\Stubs\Providers;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;

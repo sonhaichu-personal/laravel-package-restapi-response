@@ -3,7 +3,7 @@
 namespace HaiCS\Laravel\Api\Response\Test;
 
 use HaiCS\Laravel\Api\Response\Providers\ApiResponseServiceProvider;
-use HaiCS\Laravel\Api\Response\Providers\TestServiceProvider;
+use HaiCS\Laravel\Api\Response\Test\Stubs\Providers\TestServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 class TestCase extends OrchestraTestCase
