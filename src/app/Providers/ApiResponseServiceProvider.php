@@ -17,7 +17,7 @@ class ApiResponseServiceProvider extends ServiceProvider
     public function boot()
     {
         Response::macro('api', function () {
-            return new ApiResponse(new Manager());
+            return new ApiResponse(new Manager(), $this);
         });
     }
 

@@ -30,9 +30,9 @@ class ApiResponseTest extends TestCase
         $transformer = new BookTransformer();
 
         $response = response()->api()->item($item, $transformer);
-        $data     = json_decode($response, true);
+        $data     = $response->getData(true);
 
-        // $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertArrayHasKey('data', $data);
         $this->assertSame($data['data']['title'], $item->title);
         $this->assertSame($data['data']['description'], $item->description);

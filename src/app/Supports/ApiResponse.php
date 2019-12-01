@@ -2,6 +2,7 @@
 
 namespace HaiCS\Laravel\Api\Response\Supports;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection as SupportCollection;
@@ -18,15 +19,21 @@ class ApiResponse
     protected $manager;
 
     /**
+     * @var League\Fractal\Manager
+     */
+    protected $factory;
+
+    /**
      * Constructor
      *
      * @param League\Fractal\Manager $manager
      *
      * @return void
      */
-    public function __construct(Manager $manager)
+    public function __construct(Manager $manager, ResponseFactory $factory)
     {
         $this->manager = $manager;
+        $this->factory = $factory;
     }
 
     /**
@@ -35,13 +42,15 @@ class ApiResponse
      * @param Illuminate\Database\Eloquent\Model $item
      * @param $transformer
      *
-     * @return string
+     * @return Illuminate\Http\JsonResponse
      */
-    public function item(Model $item, $transformer): string
+    public function item(Model $item, $transformer)
     {
         $resource = new Item($item, $transformer);
 
-        return $this->manager->createData($resource)->toJson();
+        $data = $this->manager->createData($resource)->toArray();
+
+        return $this->factory->json($data);
     }
 
     /**
@@ -84,6 +93,6 @@ class ApiResponse
      */
     public function success()
     {
-        return response()->json(['success' => true]);
+        return $this->factory->json(['success' => true]);
     }
 }
