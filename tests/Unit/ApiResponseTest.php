@@ -48,8 +48,9 @@ class ApiResponseTest extends TestCase
         $transformer = new BookTransformer();
 
         $response = response()->api()->collection($collection, $transformer);
-        $data     = json_decode($response, true);
+        $data     = $response->getData(true);
 
+        $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertArrayHasKey('data', $data);
         $this->assertCount($collection->count(), $data['data']);
 
@@ -70,8 +71,9 @@ class ApiResponseTest extends TestCase
         $transformer = new BookTransformer();
 
         $response = response()->api()->paginator($paginator, $transformer);
-        $data     = json_decode($response, true);
+        $data     = $response->getData(true);
 
+        $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertArrayHasKey('data', $data);
         $this->assertArrayHasKey('meta', $data);
         $this->assertArrayHasKey('pagination', $data['meta']);

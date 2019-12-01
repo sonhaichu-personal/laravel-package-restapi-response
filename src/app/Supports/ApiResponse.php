@@ -48,9 +48,9 @@ class ApiResponse
     {
         $resource = new Item($item, $transformer);
 
-        $data = $this->manager->createData($resource)->toArray();
+        $data = $this->createArrayData($resource);
 
-        return $this->factory->json($data);
+        return $this->jsonResponse($data);
     }
 
     /**
@@ -59,13 +59,15 @@ class ApiResponse
      * @param Illuminate\Support\Collection $collection
      * @param $transformer
      *
-     * @return string
+     * @return Illuminate\Http\JsonResponse
      */
-    public function collection(SupportCollection $collection, $transformer): string
+    public function collection(SupportCollection $collection, $transformer)
     {
         $resource = new Collection($collection, $transformer);
 
-        return $this->manager->createData($resource)->toJson();
+        $data = $this->createArrayData($resource);
+
+        return $this->jsonResponse($data);
     }
 
     /**
@@ -74,16 +76,18 @@ class ApiResponse
      * @param Illuminate\Contracts\Pagination\LengthAwarePaginator $paginator
      * @param $transformer
      *
-     * @return string
+     * @return Illuminate\Http\JsonResponse
      */
-    public function paginator(LengthAwarePaginator $paginator, $transformer): string
+    public function paginator(LengthAwarePaginator $paginator, $transformer)
     {
         $collection = $paginator->getCollection();
 
         $resource = new Collection($collection, $transformer);
         $resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
 
-        return $this->manager->createData($resource)->toJson();
+        $data = $this->createArrayData($resource);
+
+        return $this->jsonResponse($data);
     }
 
     /**
@@ -93,6 +97,30 @@ class ApiResponse
      */
     public function success()
     {
-        return $this->factory->json(['success' => true]);
+        return $this->jsonResponse(['success' => true]);
+    }
+
+    /**
+     * Create array structured data
+     *
+     * @param League\Fractal\Resource\ResourceInterface $resource
+     *
+     * @return array
+     */
+    protected function createArrayData($resource): array
+    {
+        return $this->manager->createData($resource)->toArray();
+    }
+
+    /**
+     * Return json response
+     *
+     * @param array $data
+     *
+     * @return Illuminate\Http\JsonResponse
+     */
+    protected function jsonResponse(array $data)
+    {
+        return $this->factory->json($data);
     }
 }
