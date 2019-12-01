@@ -22,4 +22,14 @@ class TestCase extends OrchestraTestCase
             TestServiceProvider::class,
         ];
     }
+
+    /**
+     * Setup the test environment.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // $this->withFactories(__DIR__ . '/../src/database/factories');
+    }
 }
